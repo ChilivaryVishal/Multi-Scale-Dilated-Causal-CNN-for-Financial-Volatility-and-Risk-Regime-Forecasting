@@ -8,21 +8,22 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Research%20Project-blueviolet?style=for-the-badge)
 
+| scatter GARCH_sigma | scatter log_GARCH_sigma |
+| :---: | :---: |
+| ![](output/03_scatter_GARCH_sigma.png) | ![](output/03_scatter_log_GARCH_sigma.png) |
 
-| Test Train Evaluation |
-| ![](output/02_actual_vs_predicted_log_GARCH_sigma.png) | 
-| ![](output/02_actual_vs_predicted_GARCH_sigma.png) | 
-| ![](output/02_actual_vs_predicted_BB_pct.png) | 
-| ![](output/02_actual_vs_predicted_RSI_14.png) | 
+| Actual vs Predicted |
+| :---: | :---: |
+| ![](output/02_actual_vs_predicted_log_GARCH_sigma.png) |![](output/02_actual_vs_predicted_GARCH_sigma.png) |
+| ![](output/02_actual_vs_predicted_BB_pct.png) |![](output/02_actual_vs_predicted_RSI_14.png)  |
 
-</div>
+
+| Walk forward evaluation |
+| :---: | :---: |
+| ![](outputs/08_walk_forward_log_GARCH_sigma.png) |![](outputs/08_walk_forward_GARCH_sigma.png) |
+| ![](outputs/08_walk_forward_BB_pct.png) |![](outputs/08_walk_forward_RSI_14.png)  |
 
 <br>
-| Walkforward Evaluation |
-| outputs/08_walk_forward_log_GARCH_sigma.png | 
-| outputs/08_walk_forward_GARCH_sigma.png| 
-| outputs/08_walk_forward_BB_pct.png | 
-| outputs/08_walk_forward_RSI_14.png | 
 
 ## 🔍 Overview
 
