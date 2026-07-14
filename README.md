@@ -9,13 +9,11 @@
 ![Status](https://img.shields.io/badge/Status-Research%20Project-blueviolet?style=for-the-badge)
 
 
-<!-- ================================================================ -->
 | Test Train Evaluation |
-| outputs/02_actual_vs_predicted_log_GARCH_sigma.png | 
-| outputs/02_actual_vs_predicted_GARCH_sigma.png | 
-| outputs/02_actual_vs_predicted_BB_pct.png | 
-| outputs/02_actual_vs_predicted_RSI_14 | 
-<!-- ================================================================ -->
+| ![](output/02_actual_vs_predicted_log_GARCH_sigma.png) | 
+| ![](output/02_actual_vs_predicted_GARCH_sigma.png) | 
+| ![](output/02_actual_vs_predicted_BB_pct.png) | 
+| ![](output/02_actual_vs_predicted_RSI_14.png) | 
 
 </div>
 
