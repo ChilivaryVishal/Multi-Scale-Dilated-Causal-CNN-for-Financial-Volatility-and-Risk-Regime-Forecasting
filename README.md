@@ -118,7 +118,7 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 
 <br>
 
-## 📁 Repository Structure
+## Repository Structure
 
 
 ```
@@ -140,7 +140,7 @@ This project was developed as part of a research internship, and is shared here 
 
 <br>
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
