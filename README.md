@@ -1,6 +1,6 @@
 <div align="center">
 
-# Multi-Scale Dilated Causal CNN for Financial Volatility and Risk Regime Forecasting on NIFTY Bank
+# Multi-Scale Dilated Causal CNN for Financial Volatility and Risk Regime Forecasting on NIFTY Bank Index
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
