@@ -8,6 +8,8 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Research%20Project-blueviolet?style=for-the-badge)
 
+</div>
+
 <br>
 
 | scatter GARCH_sigma | scatter log_GARCH_sigma |
