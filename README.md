@@ -57,9 +57,7 @@ Rather than building five separate bespoke models, one configurable "Stochastic 
 
 ## Model Architecture
 
-<!-- ================================================================ -->
 ![](figures/Stochastic_CNN_Architecture.pdf)
-<!-- ================================================================ -->
 
 The backbone consists of stacked **dilated causal convolution blocks** (dilations `1 → 2 → 4`) for multi-scale temporal receptive fields, followed by spatial dropout, a dense head (`256 → 128 → 64`), and task-specific output layers (linear for regression, softmax for classification). Key design choices:
 
@@ -86,9 +84,7 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 
 <br>
 
-<img src="eda/pearson_correlation_heatmap.png" alt="Feature Correlation Heatmap" width="800"/>
-<p><em>Pearson correlation structure across all engineered features</em></p>
-
+![](eda/pearson_correlation_heatmap.png)
 <br>
 
 ## ⚙️ Methodology
@@ -111,6 +107,7 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 | `BB_pct` | Regression | 0.781 | 50.1 | 0.790 | 40 |
 | `RSI_14` | Regression | 0.845 | 49.1 | 0.857 | 41 |
 
+<br>
 
 | Target | Task | Accuracy | F1 (macro) |
 |--------|:----:|:--:|:--:|
