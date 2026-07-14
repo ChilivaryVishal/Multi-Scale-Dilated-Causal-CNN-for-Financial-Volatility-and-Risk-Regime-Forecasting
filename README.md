@@ -57,7 +57,7 @@ Rather than building five separate bespoke models, one configurable "Stochastic 
 
 ## Model Architecture
 
-![](figures/Stochastic_CNN_Architecture.pdf)
+![](figures/Stochastic_CNN_Architecture.svg)
 
 The backbone consists of stacked **dilated causal convolution blocks** (dilations `1 → 2 → 4`) for multi-scale temporal receptive fields, followed by spatial dropout, a dense head (`256 → 128 → 64`), and task-specific output layers (linear for regression, softmax for classification). Key design choices:
 
@@ -78,16 +78,20 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 
 <br>
 
-## 📊 Exploratory Data Analysis
-
+## Exploratory Data Analysis
+# OHLC overview
+<div align="center">
 ![](eda/ohlc_overview.png)
-
+</div>
 <br>
 
+# Pearson Correlation Map
+<div align="center">
 ![](eda/pearson_correlation_heatmap.png)
+</div>
 <br>
 
-## ⚙️ Methodology
+## Methodology
 
 1. **Preprocessing** robust/quantile scaling, log-transform for skewed targets, sliding-window sequence construction
 2. **Training** Adam optimizer with cosine-decay + warm restarts (`T₀ = 15` epochs, multiplier `2.0`), early stopping (patience 30), up to 300 epochs
@@ -98,24 +102,24 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 <br>
 
 
-## 🏆 Results
-
+## Results
+<div align="center">
 | Target | Task | R² | Dir. Acc (%) | Naive R² | Epochs |
 |--------|:----:|:--:|:--:|:--:|:--:|
 | `log_GARCH_sigma` | Regression | **0.978** | 70.7 | 0.967 | 264 |
 | `GARCH_sigma` | Regression | 0.965 | 77.5 | 0.967 | 260 |
 | `BB_pct` | Regression | 0.781 | 50.1 | 0.790 | 40 |
 | `RSI_14` | Regression | 0.845 | 49.1 | 0.857 | 41 |
-
+</div>
 <br>
 
+<div align="center">
 | Target | Task | Accuracy | F1 (macro) |
 |--------|:----:|:--:|:--:|
 | `VolatilityRegime` | Classification | **0.935** | 0.931 |
 | `VaR_regime` | Classification | 0.932 | 0.898 |
-
+</div>
 <br>
-
 ## 📁 Repository Structure
 
 
