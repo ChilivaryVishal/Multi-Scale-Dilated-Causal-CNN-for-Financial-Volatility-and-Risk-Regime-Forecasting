@@ -1,1 +1,288 @@
-# Multi-Scale-Dilated-Causal-CNN-for-Financial-Volatility-and-Risk-Regime-Forecasting
+<div align="center">
+
+# 🌀 Stochastic CNN for Multi-Target Financial Forecasting
+### Dilated-Causal Convolutional Networks for Volatility, Momentum & Regime Prediction on NIFTY Bank
+
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![scikit--learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Research%20Project-blueviolet?style=for-the-badge)
+
+*A single, reusable convolutional architecture — trained across five distinct financial forecasting tasks, from volatility regimes to momentum indicators — validated with walk-forward testing and gradient-based interpretability.*
+
+<!-- ================================================================ -->
+<!-- INSERT: hero banner image (e.g. a collage or your favourite plot) -->
+<!-- <img src="assets/hero_banner.png" alt="Project Banner" width="850"/> -->
+<!-- ================================================================ -->
+
+</div>
+
+<br>
+
+## 📖 Table of Contents
+
+- [Overview](#-overview)
+- [Highlights](#-highlights)
+- [Model Architecture](#-model-architecture)
+- [Dataset & Feature Engineering](#-dataset--feature-engineering)
+- [Exploratory Data Analysis](#-exploratory-data-analysis)
+- [Methodology](#-methodology)
+- [Results](#-results)
+- [Interpretability](#-interpretability)
+- [Repository Structure](#-repository-structure)
+- [Getting Started](#-getting-started)
+- [Roadmap](#-roadmap)
+- [Acknowledgements](#-acknowledgements)
+- [License](#-license)
+- [Connect](#-connect)
+
+<br>
+
+## 🔍 Overview
+
+This project explores whether a **single convolutional architecture** — built around dilated causal convolutions, residual learning, and cosine-annealed training — can generalize across fundamentally different financial forecasting problems on the **NIFTY Bank index (2013–2026)**, enriched with India VIX features.
+
+Rather than building five separate bespoke models, one configurable "Stochastic CNN" backbone is trained on **five targets**, spanning both regression and classification:
+
+| Code | Target | Task | Description |
+|:----:|--------|:----:|-------------|
+| T1 | `BB_pct` | Regression | Next-day Bollinger Band percentile |
+| T2 | `RSI_14` | Regression | Next-day RSI-14 momentum indicator |
+| T3 | `log_GARCH_sigma` | Regression | Next-day log-GARCH volatility (σ) |
+| T4 | `VaR_regime` | Classification | Next-day Value-at-Risk regime (calm / moderate / stressed) |
+| T5 | `VolatilityRegime` | Classification | Next-day 3-class volatility regime |
+
+<br>
+
+## ✨ Highlights
+
+- 🧠 **One architecture, five tasks** — a shared dilated-CNN backbone adapted per-target via residual-learning mode, dropout/L2 schedules, and window length
+- 📉 **Walk-forward validated** — no single static train/test split; performance is stress-tested across rolling time windows to avoid look-ahead bias
+- 🔁 **Cosine annealing with warm restarts** — custom learning-rate schedule for stable convergence across long training runs
+- 🔬 **Gradient × Input interpretability** — feature importance and temporal saliency heatmaps expose *which* features and *which* time steps drive each prediction
+- 📊 **Rigorous benchmarking** — every model is compared against a naive lag-1 baseline using R², directional accuracy, and Diebold–Mariano statistical tests
+
+<br>
+
+## 🏗 Model Architecture
+
+<!-- ================================================================ -->
+<!-- INSERT: your architecture diagram here -->
+<!-- <img src="assets/architecture/model_architecture.png" alt="Model Architecture" width="800"/> -->
+<!-- ================================================================ -->
+
+The backbone consists of stacked **dilated causal convolution blocks** (dilations `1 → 2 → 4`) for multi-scale temporal receptive fields, followed by spatial dropout, a dense head (`256 → 128 → 64`), and task-specific output layers (linear for regression, softmax for classification). Key design choices:
+
+- **Residual learning mode** for smooth targets (`BB_pct`, `RSI_14`) — the network predicts the *change* rather than the raw value
+- **Target-adaptive regularization** — dropout and L2 strength scale with task difficulty (e.g. stronger regularization for the 3-class volatility regime)
+- **Variable input windows** — 20-day lookback for momentum/oscillator targets, 40-day lookback for volatility targets
+
+<br>
+
+## 🗂 Dataset & Feature Engineering
+
+The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) combining:
+
+- OHLCV price/volume history
+- India VIX (implied volatility) series
+- Technical indicators (RSI, Bollinger Bands, rolling volatility, GARCH-fitted σ)
+- Rolling risk metrics (VaR, drawdown-based regime labels)
+
+> **Note:** The raw feature-engineered dataset is not included in this repository. See [Getting Started](#-getting-started) for how to reconstruct it from public sources.
+
+<br>
+
+## 📊 Exploratory Data Analysis
+
+<div align="center">
+
+<!-- ================================================================ -->
+<!-- INSERT: EDA images below — recommended picks from figures.zip -->
+<!-- ================================================================ -->
+
+<img src="assets/eda/ohlc_overview.png" alt="OHLC Overview" width="800"/>
+<p><em>Full-history OHLC price action with volume — the dataset at a glance</em></p>
+
+<br>
+
+<img src="assets/eda/pearson_correlation_heatmap.png" alt="Feature Correlation Heatmap" width="800"/>
+<p><em>Pearson correlation structure across all engineered features</em></p>
+
+<br>
+
+<table>
+<tr>
+<td width="50%">
+<img src="assets/eda/skewness_vs_kurtosis.png" alt="Skewness vs Kurtosis" width="100%"/>
+<p align="center"><em>Distributional diagnostics — skewness vs. kurtosis</em></p>
+</td>
+<td width="50%">
+<img src="assets/eda/robust_outlier_rates.png" alt="Outlier Rates" width="100%"/>
+<p align="center"><em>Robust outlier detection rates by feature</em></p>
+</td>
+</tr>
+</table>
+
+</div>
+
+<br>
+
+## ⚙️ Methodology
+
+1. **Preprocessing** — robust/quantile scaling, log-transform for skewed targets, sliding-window sequence construction
+2. **Training** — Adam optimizer with cosine-decay + warm restarts (`T₀ = 15` epochs, multiplier `2.0`), early stopping (patience 30), up to 300 epochs
+3. **Evaluation** — held-out test set **plus** rolling walk-forward validation (30-day step) to simulate real deployment conditions
+4. **Baselines** — every regression target is benchmarked against a naive lag-1 forecast, with statistical significance assessed via the Diebold–Mariano test
+5. **Interpretability** — post-hoc gradient × input feature attribution and temporal saliency mapping
+
+<br>
+
+## 🏆 Results
+
+| Target | Task | R² | Dir. Acc (%) | Naive R² | Epochs |
+|--------|:----:|:--:|:--:|:--:|:--:|
+| `log_GARCH_sigma` | Regression | **0.978** | 70.7 | 0.967 | 264 |
+| `GARCH_sigma` | Regression | 0.965 | 77.5 | 0.967 | 260 |
+| `BB_pct` | Regression | 0.781 | 50.1 | 0.790 | 40 |
+| `RSI_14` | Regression | 0.845 | 49.1 | 0.857 | 41 |
+
+| Target | Task | Accuracy | F1 (macro) |
+|--------|:----:|:--:|:--:|
+| `VolatilityRegime` | Classification | **0.935** | 0.931 |
+| `VaR_regime` | Classification | 0.932 | 0.898 |
+
+<div align="center">
+
+<!-- ================================================================ -->
+<!-- INSERT: results images below — recommended picks from outputs.zip -->
+<!-- ================================================================ -->
+
+<img src="assets/results/02_actual_vs_predicted_log_GARCH_sigma.png" alt="Actual vs Predicted" width="800"/>
+<p><em>Actual vs. predicted log-GARCH volatility on the held-out test set</em></p>
+
+<br>
+
+<img src="assets/results/06_prediction_intervals_log_GARCH_sigma.png" alt="Prediction Intervals" width="800"/>
+<p><em>Prediction intervals — the model's uncertainty band around each forecast</em></p>
+
+<br>
+
+<img src="assets/results/04_regime_timeline_VolatilityRegime.png" alt="Regime Timeline" width="800"/>
+<p><em>Predicted volatility regime overlaid on the price timeline</em></p>
+
+<br>
+
+<table>
+<tr>
+<td width="50%">
+<img src="assets/results/08_walk_forward_log_GARCH_sigma.png" alt="Walk-Forward Validation" width="100%"/>
+<p align="center"><em>Rolling walk-forward R² over time</em></p>
+</td>
+<td width="50%">
+<img src="assets/results/09_cnn_vs_naive_log_GARCH_sigma.png" alt="CNN vs Naive Baseline" width="100%"/>
+<p align="center"><em>CNN vs. naive lag-1 baseline comparison</em></p>
+</td>
+</tr>
+</table>
+
+</div>
+
+<br>
+
+## 🔬 Interpretability
+
+<div align="center">
+
+<!-- ================================================================ -->
+<!-- INSERT: interpretability images below -->
+<!-- ================================================================ -->
+
+<table>
+<tr>
+<td width="50%">
+<img src="assets/results/10_feature_importance_log_GARCH_sigma.png" alt="Feature Importance" width="100%"/>
+<p align="center"><em>Gradient × input feature importance</em></p>
+</td>
+<td width="50%">
+<img src="assets/results/11_temporal_saliency_RSI_14.png" alt="Temporal Saliency Heatmap" width="100%"/>
+<p align="center"><em>Temporal saliency — which time steps matter most</em></p>
+</td>
+</tr>
+</table>
+
+</div>
+
+<br>
+
+## 📁 Repository Structure
+
+```
+stochastic-cnn-financial-forecasting/
+├── Stochastic_CNN_Master.ipynb    # Main notebook (data → train → evaluate)
+├── README.md
+├── requirements.txt
+├── assets/
+│   ├── architecture/              # Architecture diagram
+│   ├── eda/                       # Exploratory data analysis figures
+│   └── results/                   # Model output plots
+└── results/
+    └── metrics_*.csv              # Per-target evaluation metrics
+```
+
+<br>
+
+## 🚀 Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/<your-username>/stochastic-cnn-financial-forecasting.git
+cd stochastic-cnn-financial-forecasting
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Reconstruct the dataset (NIFTY Bank OHLCV + India VIX + engineered features)
+# — see the notebook's Section 0 for the full feature engineering pipeline —
+
+# Open the notebook and set TARGET_NAME to any of:
+#   "BB_pct" | "RSI_14" | "log_GARCH_sigma" | "VaR_regime" | "VolatilityRegime"
+jupyter notebook Stochastic_CNN_Master.ipynb
+```
+
+<br>
+
+## 🗺 Roadmap
+
+This project is an active extension of ongoing research. Planned directions:
+
+- [ ] Random Vector Functional Link (RVFL) networks as a lightweight alternative/ensemble partner to the CNN
+- [ ] Extension to additional indices and asset classes
+- [ ] Online/incremental learning for regime adaptation
+
+<br>
+
+## 🙏 Acknowledgements
+
+This project was developed as part of a research internship, and is shared here as a personal portfolio piece with permission. All data used is derived from publicly available market sources.
+
+<br>
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+<br>
+
+## 🔗 Connect
+
+<div align="center">
+
+<!-- ================================================================ -->
+<!-- INSERT: your LinkedIn / portfolio badges here -->
+<!-- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile) -->
+<!-- ================================================================ -->
+
+**⭐ If you found this project interesting, consider giving it a star!**
+
+</div>
