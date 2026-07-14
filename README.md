@@ -79,16 +79,15 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 <br>
 
 ## Exploratory Data Analysis
-# OHLC overview
-<div align="center">
+### OHLC overview
+
 ![](eda/ohlc_overview.png)
-</div>
+
 <br>
 
-# Pearson Correlation Map
-<div align="center">
+### Pearson Correlation Map
+
 ![](eda/pearson_correlation_heatmap.png)
-</div>
 <br>
 
 ## Methodology
@@ -103,23 +102,22 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 
 
 ## Results
-<div align="center">
+
 | Target | Task | R² | Dir. Acc (%) | Naive R² | Epochs |
 |--------|:----:|:--:|:--:|:--:|:--:|
 | `log_GARCH_sigma` | Regression | **0.978** | 70.7 | 0.967 | 264 |
 | `GARCH_sigma` | Regression | 0.965 | 77.5 | 0.967 | 260 |
 | `BB_pct` | Regression | 0.781 | 50.1 | 0.790 | 40 |
 | `RSI_14` | Regression | 0.845 | 49.1 | 0.857 | 41 |
-</div>
 <br>
 
-<div align="center">
 | Target | Task | Accuracy | F1 (macro) |
 |--------|:----:|:--:|:--:|
 | `VolatilityRegime` | Classification | **0.935** | 0.931 |
 | `VaR_regime` | Classification | 0.932 | 0.898 |
-</div>
+
 <br>
+
 ## 📁 Repository Structure
 
 
