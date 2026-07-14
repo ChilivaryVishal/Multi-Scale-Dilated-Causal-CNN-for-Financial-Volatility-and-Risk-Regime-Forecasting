@@ -1,7 +1,6 @@
 <div align="center">
 
-# 🌀 Stochastic CNN for Multi-Target Financial Forecasting
-### Dilated-Causal Convolutional Networks for Volatility, Momentum & Regime Prediction on NIFTY Bank
+# Multi-Scale Dilated Causal CNN for Financial Volatility and Risk Regime Forecasting on NIFTY Bank
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
@@ -9,35 +8,23 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Research%20Project-blueviolet?style=for-the-badge)
 
-*A single, reusable convolutional architecture — trained across five distinct financial forecasting tasks, from volatility regimes to momentum indicators — validated with walk-forward testing and gradient-based interpretability.*
 
 <!-- ================================================================ -->
-<!-- INSERT: hero banner image (e.g. a collage or your favourite plot) -->
-<!-- <img src="assets/hero_banner.png" alt="Project Banner" width="850"/> -->
+| Test Train Evaluation |
+| outputs/02_actual_vs_predicted_log_GARCH_sigma.png | 
+| outputs/02_actual_vs_predicted_GARCH_sigma.png | 
+| outputs/02_actual_vs_predicted_BB_pct.png | 
+| outputs/02_actual_vs_predicted_RSI_14 | 
 <!-- ================================================================ -->
 
 </div>
 
 <br>
-
-## 📖 Table of Contents
-
-- [Overview](#-overview)
-- [Highlights](#-highlights)
-- [Model Architecture](#-model-architecture)
-- [Dataset & Feature Engineering](#-dataset--feature-engineering)
-- [Exploratory Data Analysis](#-exploratory-data-analysis)
-- [Methodology](#-methodology)
-- [Results](#-results)
-- [Interpretability](#-interpretability)
-- [Repository Structure](#-repository-structure)
-- [Getting Started](#-getting-started)
-- [Roadmap](#-roadmap)
-- [Acknowledgements](#-acknowledgements)
-- [License](#-license)
-- [Connect](#-connect)
-
-<br>
+| Walkforward Evaluation |
+| outputs/08_walk_forward_log_GARCH_sigma.png | 
+| outputs/08_walk_forward_GARCH_sigma.png| 
+| outputs/08_walk_forward_BB_pct.png | 
+| outputs/08_walk_forward_RSI_14.png | 
 
 ## 🔍 Overview
 
@@ -57,11 +44,11 @@ Rather than building five separate bespoke models, one configurable "Stochastic 
 
 ## ✨ Highlights
 
-- 🧠 **One architecture, five tasks** — a shared dilated-CNN backbone adapted per-target via residual-learning mode, dropout/L2 schedules, and window length
-- 📉 **Walk-forward validated** — no single static train/test split; performance is stress-tested across rolling time windows to avoid look-ahead bias
-- 🔁 **Cosine annealing with warm restarts** — custom learning-rate schedule for stable convergence across long training runs
-- 🔬 **Gradient × Input interpretability** — feature importance and temporal saliency heatmaps expose *which* features and *which* time steps drive each prediction
-- 📊 **Rigorous benchmarking** — every model is compared against a naive lag-1 baseline using R², directional accuracy, and Diebold–Mariano statistical tests
+- **One architecture, five tasks** — a shared dilated-CNN backbone adapted per-target via residual-learning mode, dropout/L2 schedules, and window length
+- **Walk-forward validated** — no single static train/test split; performance is stress-tested across rolling time windows to avoid look-ahead bias
+- **Cosine annealing with warm restarts** — custom learning-rate schedule for stable convergence across long training runs
+- **Gradient × Input interpretability** — feature importance and temporal saliency heatmaps expose *which* features and *which* time steps drive each prediction
+- **Rigorous benchmarking** — every model is compared against a naive lag-1 baseline using R², directional accuracy, and Diebold–Mariano statistical tests
 
 <br>
 
@@ -69,7 +56,7 @@ Rather than building five separate bespoke models, one configurable "Stochastic 
 
 <!-- ================================================================ -->
 <!-- INSERT: your architecture diagram here -->
-<!-- <img src="assets/architecture/model_architecture.png" alt="Model Architecture" width="800"/> -->
+<!-- <img src="figures/model_architecture.png" alt="Model Architecture" width="800"/> -->
 <!-- ================================================================ -->
 
 The backbone consists of stacked **dilated causal convolution blocks** (dilations `1 → 2 → 4`) for multi-scale temporal receptive fields, followed by spatial dropout, a dense head (`256 → 128 → 64`), and task-specific output layers (linear for regression, softmax for classification). Key design choices:
@@ -101,12 +88,12 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 <!-- INSERT: EDA images below — recommended picks from figures.zip -->
 <!-- ================================================================ -->
 
-<img src="assets/eda/ohlc_overview.png" alt="OHLC Overview" width="800"/>
+<img src="eda/ohlc_overview.png" alt="OHLC Overview" width="800"/>
 <p><em>Full-history OHLC price action with volume — the dataset at a glance</em></p>
 
 <br>
 
-<img src="assets/eda/pearson_correlation_heatmap.png" alt="Feature Correlation Heatmap" width="800"/>
+<img src="eda/pearson_correlation_heatmap.png" alt="Feature Correlation Heatmap" width="800"/>
 <p><em>Pearson correlation structure across all engineered features</em></p>
 
 <br>
@@ -114,11 +101,11 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 <table>
 <tr>
 <td width="50%">
-<img src="assets/eda/skewness_vs_kurtosis.png" alt="Skewness vs Kurtosis" width="100%"/>
+<img src="eda/skewness_vs_kurtosis.png" alt="Skewness vs Kurtosis" width="100%"/>
 <p align="center"><em>Distributional diagnostics — skewness vs. kurtosis</em></p>
 </td>
 <td width="50%">
-<img src="assets/eda/robust_outlier_rates.png" alt="Outlier Rates" width="100%"/>
+<img src="eda/robust_outlier_rates.png" alt="Outlier Rates" width="100%"/>
 <p align="center"><em>Robust outlier detection rates by feature</em></p>
 </td>
 </tr>
@@ -232,37 +219,7 @@ stochastic-cnn-financial-forecasting/
 
 <br>
 
-## 🚀 Getting Started
-
-```bash
-# Clone the repository
-git clone https://github.com/<your-username>/stochastic-cnn-financial-forecasting.git
-cd stochastic-cnn-financial-forecasting
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Reconstruct the dataset (NIFTY Bank OHLCV + India VIX + engineered features)
-# — see the notebook's Section 0 for the full feature engineering pipeline —
-
-# Open the notebook and set TARGET_NAME to any of:
-#   "BB_pct" | "RSI_14" | "log_GARCH_sigma" | "VaR_regime" | "VolatilityRegime"
-jupyter notebook Stochastic_CNN_Master.ipynb
-```
-
-<br>
-
-## 🗺 Roadmap
-
-This project is an active extension of ongoing research. Planned directions:
-
-- [ ] Random Vector Functional Link (RVFL) networks as a lightweight alternative/ensemble partner to the CNN
-- [ ] Extension to additional indices and asset classes
-- [ ] Online/incremental learning for regime adaptation
-
-<br>
-
-## 🙏 Acknowledgements
+## Acknowledgements
 
 This project was developed as part of a research internship, and is shared here as a personal portfolio piece with permission. All data used is derived from publicly available market sources.
 
