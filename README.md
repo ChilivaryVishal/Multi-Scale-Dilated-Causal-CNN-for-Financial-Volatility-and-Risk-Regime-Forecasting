@@ -47,18 +47,18 @@ Rather than building five separate bespoke models, one configurable "Stochastic 
 
 ## ✨ Highlights
 
-- **One architecture, five tasks** — a shared dilated-CNN backbone adapted per-target via residual-learning mode, dropout/L2 schedules, and window length
-- **Walk-forward validated** — no single static train/test split; performance is stress-tested across rolling time windows to avoid look-ahead bias
-- **Cosine annealing with warm restarts** — custom learning-rate schedule for stable convergence across long training runs
-- **Gradient × Input interpretability** — feature importance and temporal saliency heatmaps expose *which* features and *which* time steps drive each prediction
-- **Rigorous benchmarking** — every model is compared against a naive lag-1 baseline using R², directional accuracy, and Diebold–Mariano statistical tests
+- **One architecture, five tasks** a shared dilated-CNN backbone adapted per-target via residual-learning mode, dropout/L2 schedules, and window length
+- **Walk-forward validated** no single static train/test split; performance is stress-tested across rolling time windows to avoid look-ahead bias
+- **Cosine annealing with warm restarts** custom learning-rate schedule for stable convergence across long training runs
+- **Gradient × Input interpretability** feature importance and temporal saliency heatmaps expose *which* features and *which* time steps drive each prediction
+- **Rigorous benchmarking** every model is compared against a naive lag-1 baseline using R², directional accuracy, and Diebold–Mariano statistical tests
 
 <br>
 
 ## Model Architecture
 
 <!-- ================================================================ -->
-<embed src="figures/Stochastic_CNN_Architecture.pdf" type="application/pdf" />
+![](figures/Stochastic_CNN_Architecture.pdf)
 <!-- ================================================================ -->
 
 The backbone consists of stacked **dilated causal convolution blocks** (dilations `1 → 2 → 4`) for multi-scale temporal receptive fields, followed by spatial dropout, a dense head (`256 → 128 → 64`), and task-specific output layers (linear for regression, softmax for classification). Key design choices:
@@ -78,42 +78,16 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 - Technical indicators (RSI, Bollinger Bands, rolling volatility, GARCH-fitted σ)
 - Rolling risk metrics (VaR, drawdown-based regime labels)
 
-> **Note:** The raw feature-engineered dataset is not included in this repository. See [Getting Started](#-getting-started) for how to reconstruct it from public sources.
-
 <br>
 
 ## 📊 Exploratory Data Analysis
 
-<div align="center">
-
-<!-- ================================================================ -->
-<!-- INSERT: EDA images below — recommended picks from figures.zip -->
-<!-- ================================================================ -->
-
-<img src="eda/ohlc_overview.png" alt="OHLC Overview" width="800"/>
-<p><em>Full-history OHLC price action with volume — the dataset at a glance</em></p>
+![](eda/ohlc_overview.png)
 
 <br>
 
 <img src="eda/pearson_correlation_heatmap.png" alt="Feature Correlation Heatmap" width="800"/>
 <p><em>Pearson correlation structure across all engineered features</em></p>
-
-<br>
-
-<table>
-<tr>
-<td width="50%">
-<img src="eda/skewness_vs_kurtosis.png" alt="Skewness vs Kurtosis" width="100%"/>
-<p align="center"><em>Distributional diagnostics — skewness vs. kurtosis</em></p>
-</td>
-<td width="50%">
-<img src="eda/robust_outlier_rates.png" alt="Outlier Rates" width="100%"/>
-<p align="center"><em>Robust outlier detection rates by feature</em></p>
-</td>
-</tr>
-</table>
-
-</div>
 
 <br>
 
@@ -127,6 +101,7 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 
 <br>
 
+
 ## 🏆 Results
 
 | Target | Task | R² | Dir. Acc (%) | Naive R² | Epochs |
@@ -136,14 +111,16 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 | `BB_pct` | Regression | 0.781 | 50.1 | 0.790 | 40 |
 | `RSI_14` | Regression | 0.845 | 49.1 | 0.857 | 41 |
 
+
 | Target | Task | Accuracy | F1 (macro) |
 |--------|:----:|:--:|:--:|
 | `VolatilityRegime` | Classification | **0.935** | 0.931 |
 | `VaR_regime` | Classification | 0.932 | 0.898 |
 
-
+<br>
 
 ## 📁 Repository Structure
+
 
 ```
 stochastic-cnn-financial-forecasting/
