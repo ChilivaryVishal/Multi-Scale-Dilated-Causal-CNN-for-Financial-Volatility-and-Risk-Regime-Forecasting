@@ -123,8 +123,6 @@ The model is trained on a feature-engineered NIFTY Bank dataset (2013–2026) co
 
 ```
 stochastic-cnn-financial-forecasting/
-├── main/
-    ├──Stochastic_CNN_Master.ipynb    # Main notebook (data → train → evaluate)
 ├── README.md
 ├── requirements.txt
 ├── figures/
