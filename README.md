@@ -151,6 +151,4 @@ This project is licensed under the [MIT License](LICENSE).
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/chilivary-vishal-580a2821b/)
 <br>
 
-**⭐ If you found this project interesting, consider giving it a star!**
-
 </div>
