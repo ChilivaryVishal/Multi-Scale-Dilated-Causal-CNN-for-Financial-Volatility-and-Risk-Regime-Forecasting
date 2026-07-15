@@ -150,7 +150,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 <!-- ================================================================ -->
 <!-- INSERT: your LinkedIn / portfolio badges here -->
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)]([https://linkedin.com/in/your-profile](https://www.linkedin.com/in/chilivary-vishal-580a2821b/))
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)]([https://www.linkedin.com/in/chilivary-vishal-580a2821b/])
 <!-- ================================================================ -->
 
 **⭐ If you found this project interesting, consider giving it a star!**
